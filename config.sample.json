@@ -1,0 +1,8 @@
+{
+  "debug" : false,
+  "token" : "YOUR_TOKEN",
+  "client_id" : "YOUR_CLIENT_ID",
+  "core_folder" : "WHERE_RUN.RB_IS",
+  "website" : "YOUR_SITE",
+  "prefix" : "PREFIX_OF_COMMAND"
+}
