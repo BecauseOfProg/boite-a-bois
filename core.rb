@@ -7,8 +7,7 @@ module BecauseOfBot
   class Core
 
     VERSION = '0.1'
-	  LIBRARY = 'DiscordRB'
-    PREFIX = 'b!'
+    LIBRARY = 'DiscordRB'
 
     ROLES = JSON.parse(File.read('roles.json'))
 
