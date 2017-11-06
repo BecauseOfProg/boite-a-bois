@@ -1,4 +1,4 @@
-#BecauseOfBot
+# BecauseOfBot
 
 The Discord bot of the BecauseOfProg
 
@@ -7,7 +7,7 @@ Features:
   - List of available commands
   - Easily extensible commands
   
-##First start
+## First start
 
 To use it, you must setup config.json and roles.json (there is example with the samples).
 When it's configured, you can start the bot with a
@@ -16,7 +16,7 @@ ruby run.rb
 ```
 After that, the bot is ready and you can add it to your guild ([Guide](https://discordapp.com/developers/docs/topics/oauth2#bot-authorization-flow))
 
-##Creating a new command
+## Creating a new command
 
 To create a new command, you only must create a file in /lib/commands/ of the name of your command.
 In this file, you have to require command.rb and set the namespace to BecauseOfProg::Commands.
@@ -45,7 +45,7 @@ module BecauseOfBot
 end
 ```
 
-##Credits
+## Credits
  - Library: [DiscordRB](https://github.com/meew0/discordrb)
  - Main developers: [Whaxion](https://github.com/whaxion)
  - License: [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
