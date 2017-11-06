@@ -7,6 +7,11 @@ Features:
   - List of available commands
   - Easily extensible commands
   
+## Requirements
+  - Ruby 2.1+
+  - [Discordrb gem](https://rubygems.org/gems/discordrb/versions/3.2.1)
+  - [JSON gem](https://rubygems.org/gems/json/versions/2.1.0)
+  
 ## First start
 
 To use it, you must setup config.json and roles.json (there is example with the samples).
