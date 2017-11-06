@@ -26,7 +26,11 @@ module BecauseOfBot
         else
           sendMsg = 'Aucun role(s) trouvé(s)'
         end
-        msg.author.add_role to_add
+        begin
+          msg.author.add_role to_add
+        rescue ::Discordrb::Errors::NoPermission => e
+          sendMsg = 'Je n\'ai pas la permission de faire celà'
+        end
         msg.send_message sendMsg
       end
 
