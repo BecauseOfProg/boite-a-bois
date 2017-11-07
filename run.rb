@@ -2,28 +2,28 @@ require 'discordrb'
 require_relative 'core'
 require 'json'
 
-if File.exist?('config.json') && File.exist?('roles.json')
+if File::exist?('config.json') && File::exist?('roles.json')
 
   json = JSON.parse(File.read('config.json'))
 
-  if json["debug"]
+  if json['debug']
     debug = :debug
   else
     debug = :normal
   end
-  bot = Discordrb::Bot.new token: json["token"], client_id: json["client_id"], log_mode: debug, ignore_bots: true
+  bot = Discordrb::Bot.new token: json['token'], client_id: json['client_id'], log_mode: debug, ignore_bots: true
 
-  bot.ready() do |event|
+  bot.ready do
     $core = BecauseOfBot::Core.new bot
   end
 
-  bot.message() do |event|
+  bot.message do |event|
     msg = event.content
     if $core == nil
       $core = BecauseOfBot::Core.new bot
     end
     prefix = $core.config('prefix')
-    regex = "^" + Regexp.escape(prefix) + "([a-zA-Z]+)( (.+)?)?"
+    regex = '^' + Regexp.escape(prefix) + '([a-zA-Z]+)( (.+)?)?'
     regex = Regexp.new regex
     resp = regex.match(msg)
     args = []
