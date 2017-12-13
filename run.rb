@@ -2,9 +2,12 @@ require 'discordrb'
 require_relative 'core'
 require 'json'
 
-if File::exist?('config.json') && File::exist?('roles.json')
+config_file = File.dirname(__FILE__) + '/config.json'
+roles_file = File.dirname(__FILE__) + '/roles.json'
 
-  json = JSON.parse(File.read('config.json'))
+if File::exist?(config_file) && File::exist?(roles_file)
+
+  json = JSON.parse(File.read(config_file))
 
   if json['debug']
     debug = :debug

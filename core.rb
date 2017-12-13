@@ -9,19 +9,20 @@ module BecauseOfBot
     VERSION = '0.1'
     LIBRARY = 'DiscordRB'
 
-    ROLES = JSON.parse(File.read('roles.json'))
+    ROLES = JSON.parse(File.read(File.dirname(__FILE__) + '/roles.json'))
 
     def initialize(bot)
       raise ArgumentError, 'Not an instance of Discordrb::Bot' unless bot.class.to_s == "Discordrb::Bot"
       @bot = bot
-      @config = JSON.parse(File.read('config.json'))
+      @core_folder = File.dirname(__FILE__)
+      @config = JSON.parse(File.read(@core_folder + '/config.json'))
       @bot.debug 'Core initialized'
     end
 
     def listCommands(guild_id)
       commands = {}
       prefix = config('prefix')
-      Dir["#{config('core_folder')}/lib/commands/*.rb"].each do |command|
+      Dir["#{@core_folder}/lib/commands/*.rb"].each do |command|
         regex = Regexp.new "([a-z0-9]+)\.rb$"
         resp = regex.match command
         if resp != nil && resp[1] != 'command'
@@ -45,7 +46,7 @@ module BecauseOfBot
       else
         return
       end
-      path = "#{config('core_folder')}/lib/#{folder}/#{cmdname}.rb"
+      path = "#{@core_folder}/lib/#{folder}/#{cmdname}.rb"
       if File::exists? path
         cmd = loadCommand cmdname
         have_alias = true if cmd.const_defined?('ALIAS') == true && cmd::ALIAS != false
