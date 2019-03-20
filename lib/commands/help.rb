@@ -1,11 +1,11 @@
 require_relative 'command'
 
-module BecauseOfBot
+module BoiteABois
   module Commands
     class Help < Command
 
       USAGE = 'help'
-      DESC = 'Lister toutes les commandes'
+      DESC = 'Lister toutes les commandes disponibles'
 
       def self.exec(args, msg)
         commands = $core.listCommands msg.server.id

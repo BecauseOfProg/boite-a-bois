@@ -1,18 +1,15 @@
-require 'json'
+require_relative 'lib/commands/command'
+require_relative 'lib/constants'
+require_relative 'lib/classes'
 
-module BecauseOfBot
-
-  require_relative 'lib/commands/command'
-
+module BoiteABois
   class Core
 
-    VERSION = '0.1'
+    VERSION = '1.0'
     LIBRARY = 'DiscordRB'
 
-    ROLES = JSON.parse(File.read(File.dirname(__FILE__) + '/roles.json'))
-
     def initialize(bot)
-      raise ArgumentError, 'Not an instance of Discordrb::Bot' unless bot.class.to_s == "Discordrb::Bot"
+      raise ArgumentError, 'Not an instance of Discordrb::Bot' unless bot.is_a? Discordrb::Bot
       @bot = bot
       @core_folder = File.dirname(__FILE__)
       @config = JSON.parse(File.read(@core_folder + '/config.json'))

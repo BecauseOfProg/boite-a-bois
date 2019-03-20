@@ -1,4 +1,4 @@
-module BecauseOfBot
+module BoiteABois
   module Commands
 
     class Command
