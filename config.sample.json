@@ -1,0 +1,7 @@
+{
+  "debug": false,
+  "token": "Your bot's token",
+  "client_id": "Your bot's client ID",
+  "website": "Your website",
+  "prefix": "Commands' prefix"
+}
