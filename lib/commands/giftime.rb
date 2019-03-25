@@ -4,6 +4,7 @@ module BoiteABois
   module Commands
     class Giftime < Command
 
+      CATEGORY = 'fun'
       USAGE = 'giftime' # Command usage
       DESC = 'Envoyer un GIF aléatoire' # Command description
 

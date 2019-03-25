@@ -3,5 +3,12 @@
   "token": "Your bot's token",
   "client_id": "Your bot's client ID",
   "website": "Your website",
-  "prefix": "Commands' prefix"
+  "prefix": "Commands' prefix",
+  "categories": {
+    "weather": "🌦 Météo",
+    "games": "🎮 Jeux",
+    "fun": "🎉 Fun",
+    "utilities": "🔧 Utilitaires",
+    "teams": "📌 Equipes"
+  }
 }

@@ -4,8 +4,10 @@ module BoiteABois
   module Commands
     class Chifoumi < Command
 
+      CATEGORY = 'games'
       USAGE = 'chifoumi'
       DESC = 'Démarrer une partie de chifoumi'
+      CHANNELS = [559836030874812436]
 
       ROCK = '✊'
       PAPER = '🤚'

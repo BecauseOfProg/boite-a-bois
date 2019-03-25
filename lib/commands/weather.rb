@@ -4,8 +4,10 @@ module BoiteABois
   module Commands
     class Weather < Command
 
+      CATEGORY = 'weather'
       USAGE = 'weather <location>'
       DESC = 'Obtenir la météo à un endroit précis'
+      CHANNELS = [556896893481779205]
 
       def self.exec(args, context)
         begin

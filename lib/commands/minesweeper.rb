@@ -4,8 +4,10 @@ module BoiteABois
   module Commands
     class Minesweeper < Command
 
+      CATEGORY = 'games'
       USAGE = 'minesweeper'
       DESC = 'Jouer au démineur'
+      CHANNELS = [541314079298551819]
 
       def self.exec(args, context)
         context.send generate(1)
@@ -79,10 +81,8 @@ module BoiteABois
           end
           result += "\n"
         end
-        
         result
-      end      
-
+      end
     end
   end
 end
