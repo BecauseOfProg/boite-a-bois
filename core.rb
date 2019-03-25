@@ -5,6 +5,10 @@ require_relative 'lib/classes'
 module BoiteABois
   class Core
 
+    attr_reader :commands
+
+    attr_reader :config
+
     VERSION = '1.0'
     LIBRARY = 'DiscordRB'
 
@@ -13,32 +17,35 @@ module BoiteABois
       @bot = bot
       @core_folder = File.dirname(__FILE__)
       @config = JSON.parse(File.read(@core_folder + '/config.json'))
+      @commands = listCommands()
       @bot.debug 'Core initialized'
     end
 
-    def listCommands(guild_id)
+    def listCommands(guild_id = nil)
       commands = {}
-      prefix = config('prefix')
-      Dir["#{@core_folder}/lib/commands/*.rb"].each do |command|
-        regex = Regexp.new "([a-z0-9]+)\.rb$"
-        resp = regex.match command
+      prefix = @config['prefix']
+      Dir["#{@core_folder}/lib/commands/*.rb"].each do |path|
+        resp = Regexp.new("([a-z0-9]+)\.rb$").match(path)
         if resp != nil && resp[1] != 'command'
-          cmd = loadCommand(resp[1])
-          commands[resp[1]] = {}
-          commands[resp[1]]['alias'] = cmd::ALIAS if cmd.const_defined? 'ALIAS'
-          commands[resp[1]]['show'] = cmd::SHOW if cmd.const_defined? 'SHOW'
-          commands[resp[1]]['usage'] = prefix + cmd::USAGE.to_s if cmd.const_defined? 'USAGE'
-          commands[resp[1]]['usage'] = prefix + resp[1] unless cmd.const_defined? 'USAGE'
-          commands[resp[1]]['desc'] = cmd::DESC if cmd.const_defined? 'DESC'
+          cmd_name = resp[1]
+          cmd = loadCommand(cmd_name)
+          commands[cmd_name] = {
+            alias:    (cmd::ALIAS if cmd.const_defined?('ALIAS')),
+            show:     (cmd::SHOW if cmd.const_defined?('SHOW')),
+            usage:    (cmd.const_defined?('USAGE') ? "#{prefix}#{cmd::USAGE.to_s}" : "#{prefix}#{cmd_name}"),
+            desc:     (cmd::DESC if cmd.const_defined?('DESC')),
+            category: (cmd::CATEGORY if cmd.const_defined?('CATEGORY')),
+            channels: (cmd::CHANNELS if cmd.const_defined?('CHANNELS'))
+          }
         end
       end
       return commands
     end
 
-    def onCommand(cmd, args, msg)
-      prefix = config('prefix')
+    def onCommand(cmd, args, context)
+      prefix = @config['prefix']
       cmdname = cmd.downcase
-      if !msg.channel.private?
+      if !context.channel.private?
         folder = 'commands'
       else
         return
@@ -52,11 +59,23 @@ module BoiteABois
           cmd = loadCommand cmd::ALIAS
           have_alias = true if cmd.const_defined?('ALIAS') == true && cmd::ALIAS != false
         end
-        cmd::exec args, msg
+        if cmd.const_defined?('CHANNELS')
+          p context.channel.id
+          p cmd::CHANNELS
+          if cmd::CHANNELS.include? context.channel.id
+            cmd::exec args, context
+          else
+            context.send_message ':x: Vous n\'avez pas la permission d\'exécuter cette commande ici.'
+          end
+        else
+          cmd::exec args, context
+          # if cmd.const_defined?('ROLES')
+          #   if cmd::ROLES.include? context.user.
+          # else
+          # end
+        end
       else
-        message = 'Commande inconnue: faites %prefix%help pour avoir de l\'aide'
-        message = message.gsub /%prefix%/i, prefix
-        msg.send_message message
+        context.send_message "Commande inconnue: faites #{prefix}help pour avoir de l\'aide"
       end
     end
 
@@ -66,10 +85,6 @@ module BoiteABois
 
     def debug(msg)
       @bot.debug msg
-    end
-    
-    def config(name)
-      @config[name]
     end
 
     private

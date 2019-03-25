@@ -26,7 +26,7 @@ if File::exist?(config_file)
     if $core == nil
       $core = BoiteABois::Core.new bot
     end
-    prefix = $core.config('prefix')
+    prefix = $core.config['prefix']
     regex = '^' + Regexp.escape(prefix) + '([a-zA-Z]+)( (.+)?)?'
     regex = Regexp.new regex
     resp = regex.match(msg)
