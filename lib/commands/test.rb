@@ -5,7 +5,8 @@ module BoiteABois
     class Test < Command
 
       USAGE = 'test'
-      DESC = 'tese'
+      DESC = 'Exybore test'
+      MEMBERS = [135708974061322240]
       SHOW = false
 
       def self.exec(args, context)
@@ -14,7 +15,6 @@ module BoiteABois
         m.react '🍷'
 
         event = context.bot.add_await!(Discordrb::Events::ReactionAddEvent)
-        p event
         context.send case event.emoji.name
         when '🍺' then 'j\'aime pas trop la bière en vrai'
         when '🍷' then 'Je kiffe le vin ! :flag_fr:'
