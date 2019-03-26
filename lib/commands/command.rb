@@ -3,11 +3,10 @@ module BoiteABois
 
     class Command
 
-      ALIAS = false
+      ALIAS = nil
 	    SHOW = true
-	    ADMIN = false
 
-      def self.exec(args, msg)
+      def self.exec(args, context)
         #NEEDED
       end
 

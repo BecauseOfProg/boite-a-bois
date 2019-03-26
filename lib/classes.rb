@@ -1,5 +1,45 @@
 module BoiteABois
   module Classes
+    # Command class
+    class Command
+      attr_reader :name
+
+      attr_reader :function
+      
+      attr_reader :alias
+
+      attr_reader :show
+
+      attr_reader :usage
+
+      attr_reader :desc
+
+      attr_reader :category
+
+      attr_reader :channels
+
+      attr_reader :roles
+
+      attr_reader :members
+
+      def initialize(data)
+        @name        = data[:name]
+        @function    = data[:function]
+        @alias       = data[:alias]
+        @show        = data[:show]
+        @usage       = data[:usage]
+        @description = data[:desc]
+        @category    = data[:category]
+        @channels    = data[:channels]
+        @roles       = data[:roles]
+        @members     = data[:members]
+      end
+
+      def to_s
+        "#{@usage} : #{@description}"
+      end
+    end
+
     # Pendu statistics class
     class Statistics
       # @return [Time] time when the game started

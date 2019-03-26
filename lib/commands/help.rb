@@ -13,9 +13,9 @@ module BoiteABois
         categories = $core.config['categories']
         commandList = {}
         commands.each do |name, command|
-          if command[:show] == true && command[:alias] == false
-            commandList[command[:category]] = "" if commandList[command[:category]].nil?
-            commandList[command[:category]] << "#{command[:usage]} : #{command[:desc]}\n"
+          if command.show && !command.alias
+            commandList[command.category] = '' if commandList[command.category].nil?
+            commandList[command.category] << "#{command}\n"
           end
         end
         context.send_message 'Voici la liste des commandes :'

@@ -41,7 +41,7 @@ module BoiteABois
         play.react PAPER
         play.react SCISSORS
         context.message.delete
-        until wins[:bot] == 3 or wins[:user] == 3
+        until wins[:bot] == 3 || wins[:user] == 3
           round_number += 1
           message = "👉 **Chioumi - #{context.user.mention} VS Boîte à bois\n#{wins[:user]} - #{wins[:bot]}**\n"
           rounds.each do |round|

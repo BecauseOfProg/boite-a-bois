@@ -5,8 +5,8 @@ module BoiteABois
     class Giftime < Command
 
       CATEGORY = 'fun'
-      USAGE = 'giftime' # Command usage
-      DESC = 'Envoyer un GIF aléatoire' # Command description
+      USAGE = 'giftime'
+      DESC = 'Envoyer un GIF aléatoire'
 
       GIF = [
         'https://imgur.com/a/KBZyYKm', # << Vous n'avez pas les bases >>
@@ -15,7 +15,7 @@ module BoiteABois
 
       def self.exec(args, context)
         context.message.delete
-        context.send "#{GIF.sample}"
+        context.send GIF.sample
       end
 
     end

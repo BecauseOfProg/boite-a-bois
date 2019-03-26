@@ -4,7 +4,6 @@ require_relative 'lib/classes'
 
 module BoiteABois
   class Core
-
     attr_reader :commands
 
     attr_reader :config
@@ -18,52 +17,45 @@ module BoiteABois
       @core_folder = File.dirname(__FILE__)
       @config = JSON.parse(File.read(@core_folder + '/config.json'))
       @commands = listCommands()
-      @bot.debug 'Core initialized'
     end
 
     def onCommand(cmd, args, context)
-      prefix = @config['prefix']
-      cmdname = cmd.downcase
-      if !context.channel.private?
-        folder = 'commands'
-      else
+      if context.channel.private?
         return
       end
-      path = "#{@core_folder}/lib/#{folder}/#{cmdname}.rb"
-      if File::exists? path
-        cmd = loadCommand cmdname
-        have_alias = true if cmd.const_defined?('ALIAS') == true && cmd::ALIAS != false
+      if @commands[cmd.downcase].nil?
+        context.send_message "❓ Commande inconnue. Faites #{prefix}help pour avoir la liste complète des commandes autorisées."
+      else
+        command = @commands[cmd.downcase]
+        cmd = loadCommand cmd.downcase
+        have_alias = true unless command.alias.nil?
         while have_alias
           have_alias = false
-          cmd = loadCommand cmd::ALIAS
-          have_alias = true if cmd.const_defined?('ALIAS') == true && cmd::ALIAS != false
+          cmd = loadCommand(command.alias)
+          have_alias = true unless command.alias.nil?
         end
         authorized = false
-        if cmd.const_defined?('CHANNELS') and cmd::CHANNELS.include?(context.channel.id)
-          authorized = true if cmd.const_defined?('MEMBERS') and cmd::MEMBERS.include?(context.user.id)
-          if cmd.const_defined?('ROLES')
-            context.user.roles.each do |role|
-              authorized = true if cmd::ROLES.include?(role.id)
-            end
+
+        # Verifying if the command is in the good channel - if not, then output an error message
+        unless command.channels.nil?
+          unless command.channels.include?(context.channel.id)
+            context.send_message ':x: Vous n\'avez pas la permission d\'exécuter cette commande dans ce salon.'
+            return
           end
         end
-
-        if authorized
-          cmd::exec args, context
+        # Verifying if there is members or roles restrictions - if yes, do the check - if no, authorize the command
+        if !command.members.nil?
+          authorized = true if command.members.include?(context.user.id)
+        elsif !command.roles.nil?
+          context.user.roles.each do |role|
+            authorized = true if command.roles.include?(role.id)
+          end
         else
-          context.send_message ':x: Vous n\'avez pas la permission d\'exécuter cette commande.'
+          authorized = true
         end
-      else
-        context.send_message "Commande inconnue: faites #{prefix}help pour avoir de l\'aide"
+
+        authorized ? command.function.call(args, context) : context.send_message(':x: Vous n\'avez pas la permission d\'exécuter cette commande.')
       end
-    end
-
-    def stop
-      @bot.stop
-    end
-
-    def debug(msg)
-      @bot.debug msg
     end
 
     private
@@ -76,7 +68,9 @@ module BoiteABois
         if resp != nil && resp[1] != 'command'
           cmd_name = resp[1]
           cmd = loadCommand(cmd_name)
-          commands[cmd_name] = {
+          data = {
+            name:     cmd_name,
+            function: lambda { |args, context| cmd.exec(args, context) },
             alias:    (cmd::ALIAS if cmd.const_defined?('ALIAS')),
             show:     (cmd::SHOW if cmd.const_defined?('SHOW')),
             usage:    (cmd.const_defined?('USAGE') ? "#{prefix}#{cmd::USAGE.to_s}" : "#{prefix}#{cmd_name}"),
@@ -86,14 +80,15 @@ module BoiteABois
             roles:    (cmd::ROLES if cmd.const_defined?('ROLES')),
             members:  (cmd::MEMBERS if cmd.const_defined?('MEMBERS'))
           }
+          commands[cmd_name] = Classes::Command.new(data)
         end
       end
-      return commands
+      commands
     end
 
-    def loadCommand(cmd)
-      require_relative "lib/commands/#{cmd}"
-      eval "Commands::#{cmd.capitalize}"
+    def loadCommand(command)
+      require_relative "lib/commands/#{command}"
+      eval "Commands::#{command.capitalize}"
     end
   end
 end
