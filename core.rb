@@ -4,13 +4,21 @@ require_relative 'lib/classes'
 
 module BoiteABois
   class Core
+    # return [Hash<Commands::Command>] all the commands defined in the bot
     attr_reader :commands
 
+    # return [Hash] the bot configuration
     attr_reader :config
 
-    VERSION = '1.0'
+    # Bot version
+    VERSION = '1.1.2'
+
+    # Library used for the bot
     LIBRARY = 'DiscordRB'
 
+    # Initialize the bot core.
+    #
+    # @param bot [Discordrb::Bot] the Discord Bot class
     def initialize(bot)
       raise ArgumentError, 'Not an instance of Discordrb::Bot' unless bot.is_a? Discordrb::Bot
       @bot = bot
@@ -19,6 +27,11 @@ module BoiteABois
       @commands = listCommands()
     end
 
+    # Trigger a command
+    #
+    # @param cmd [String] command's name
+    # @param args [Array] arguments passed to the command
+    # @param context [Discordrb::Event::MessageEvent] the command context
     def onCommand(cmd, args, context)
       if context.channel.private?
         return
@@ -60,6 +73,9 @@ module BoiteABois
 
     private
 
+    # List all the available commands
+    #
+    # @param guild_id [Integer] (unused yet)
     def listCommands(guild_id = nil)
       commands = {}
       prefix = @config['prefix']
@@ -86,6 +102,9 @@ module BoiteABois
       commands
     end
 
+    # Load a command from the files
+    #
+    # @param command [String] the command's name
     def loadCommand(command)
       require_relative "lib/commands/#{command}"
       eval "Commands::#{command.capitalize}"

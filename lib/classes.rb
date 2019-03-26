@@ -2,26 +2,39 @@ module BoiteABois
   module Classes
     # Command class
     class Command
+      # @return [String] command's name
       attr_reader :name
 
+      # @return [Proc] command's function to trigger when it's called
       attr_reader :function
       
+      # @return [String, nil] the alias of the command
       attr_reader :alias
 
+      # @return [Boolean] if the command has to be shown in the help
       attr_reader :show
 
+      # @return [String, nil] command's usage, for the help
       attr_reader :usage
 
+      # @return [String, nil] command's description
       attr_reader :desc
 
+      # @return [String] command's category, as defined in the config
       attr_reader :category
 
+      # @return [Array, nil]
       attr_reader :channels
 
+      # @return [Array, nil]
       attr_reader :roles
 
+      # @return [Array, nil]
       attr_reader :members
 
+      # Initialize the Command object
+      #
+      # @param data [Hash] command data
       def initialize(data)
         @name        = data[:name]
         @function    = data[:function]
