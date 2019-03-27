@@ -32,6 +32,9 @@ module BoiteABois
       # @return [Array, nil]
       attr_reader :members
 
+      # @return [Array<String>] where the command should be listened for
+      attr_reader :listen
+
       # Initialize the Command object
       #
       # @param data [Hash] command data
@@ -46,6 +49,7 @@ module BoiteABois
         @channels    = data[:channels]
         @roles       = data[:roles]
         @members     = data[:members]
+        @listen      = data[:listen]
       end
 
       def to_s

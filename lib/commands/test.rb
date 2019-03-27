@@ -8,6 +8,7 @@ module BoiteABois
       DESC = 'Exybore test'
       MEMBERS = [135708974061322240]
       SHOW = false
+      LISTEN = ['private']
 
       def self.exec(args, context)
         m = context.send 'Choisis une réaction !'

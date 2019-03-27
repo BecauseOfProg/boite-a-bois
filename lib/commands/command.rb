@@ -10,6 +10,7 @@ module BoiteABois
       ROLES = nil
       MEMBERS = nil
       DESC = 'Command.'
+      LISTEN = ['public', 'private']
 
       def self.exec(args, context)
         #NEEDED

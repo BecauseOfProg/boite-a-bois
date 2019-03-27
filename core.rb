@@ -33,13 +33,17 @@ module BoiteABois
     # @param args [Array] arguments passed to the command
     # @param context [Discordrb::Event::MessageEvent] the command context
     def onCommand(cmd, args, context)
-      if context.channel.private?
-        return
-      end
       if @commands[cmd.downcase].nil?
         context.send_message "❓ Commande inconnue. Faites #{prefix}help pour avoir la liste complète des commandes autorisées."
       else
         command = @commands[cmd.downcase]
+
+        if context.channel.private?
+          return unless command.listen.include?('private')
+        else
+          return unless command.listen.include?('public')
+        end
+
         cmd = loadCommand cmd.downcase
         have_alias = true unless command.alias.nil?
         while have_alias
@@ -50,12 +54,15 @@ module BoiteABois
         authorized = false
 
         # Verifying if the command is in the good channel - if not, then output an error message
-        unless command.channels.nil?
-          unless command.channels.include?(context.channel.id)
-            context.send_message ':x: Vous n\'avez pas la permission d\'exécuter cette commande dans ce salon.'
-            return
+        unless context.channel.private?
+          unless command.channels.nil?
+            unless command.channels.include?(context.channel.id)
+              context.send_message ':x: Vous n\'avez pas la permission d\'exécuter cette commande dans ce salon.'
+              return
+            end
           end
         end
+        
         # Verifying if there is members or roles restrictions - if yes, do the check - if no, authorize the command
         if !command.members.nil?
           authorized = true if command.members.include?(context.user.id)
@@ -94,7 +101,8 @@ module BoiteABois
             category: (cmd::CATEGORY),
             channels: (cmd::CHANNELS),
             roles:    (cmd::ROLES),
-            members:  (cmd::MEMBERS)
+            members:  (cmd::MEMBERS),
+            listen:   (cmd::LISTEN)
           }
           commands[cmd_name] = Classes::Command.new(data)
         end
