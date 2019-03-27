@@ -21,7 +21,7 @@ module BoiteABois
         context.send_message 'Voici la liste des commandes :'
         commandList.each do |cmd_category, commands|
           context.channel.send_embed categories[cmd_category] do |embed|
-            embed.color = 2001125
+            embed.color = $core.config['color'].to_i
             embed.description = commands
           end
         end

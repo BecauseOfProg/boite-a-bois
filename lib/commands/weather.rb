@@ -11,7 +11,7 @@ module BoiteABois
 
       def self.exec(args, context)
         begin
-          data = BoiteABois::Constants::WEATHER_API.current(args[0])
+          data = $core.weather_api.current(args[0])
           context.send "￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ #{data.city.name} :flag_#{data.city.country.downcase}:
   ￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶#{data.weather_conditions.emoji} #{data.weather_conditions.description.capitalize}
 

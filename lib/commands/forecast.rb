@@ -11,7 +11,7 @@ module BoiteABois
 
       def self.exec(args, context)
         begin
-          data = BoiteABois::Constants::WEATHER_API.forecast(args[0])
+          data = $core.weather_api.forecast(args[0])
           context.send "￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ #{data.city.name} :flag_#{data.city.country.downcase}: - Prévisions"
           data.forecast.each do |condition|
             context.send "￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ **#{condition.time.day}/#{condition.time.month}**

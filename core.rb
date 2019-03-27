@@ -10,6 +10,9 @@ module BoiteABois
     # return [Hash] the bot configuration
     attr_reader :config
 
+    # return [OpenWeatherMap::API] The weather API object to use for some commands
+    attr_reader :weather_api
+
     # Bot version
     VERSION = '1.1.2'
 
@@ -24,6 +27,7 @@ module BoiteABois
       @bot = bot
       @core_folder = File.dirname(__FILE__)
       @config = JSON.parse(File.read(@core_folder + '/config.json'))
+      @weather_api = OpenWeatherMap::API.new(@config['weather_api_key'], 'fr', 'metric')
       @commands = listCommands()
     end
 

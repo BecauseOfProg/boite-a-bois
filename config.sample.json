@@ -4,11 +4,14 @@
   "client_id": "Your bot's client ID",
   "website": "Your website",
   "prefix": "Commands' prefix",
+  "color": "12000284",
   "categories": {
+    "default": "Non classé",
     "weather": "🌦 Météo",
     "games": "🎮 Jeux",
     "fun": "🎉 Fun",
     "utilities": "🔧 Utilitaires",
     "teams": "📌 Equipes"
-  }
+  },
+  "weather_api_key": "The OpenWeatherMap API key"
 }
