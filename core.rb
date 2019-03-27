@@ -87,14 +87,14 @@ module BoiteABois
           data = {
             name:     cmd_name,
             function: lambda { |args, context| cmd.exec(args, context) },
-            alias:    (cmd::ALIAS if cmd.const_defined?('ALIAS')),
-            show:     (cmd::SHOW if cmd.const_defined?('SHOW')),
+            alias:    (cmd::ALIAS),
+            show:     (cmd::SHOW),
             usage:    (cmd.const_defined?('USAGE') ? "#{prefix}#{cmd::USAGE.to_s}" : "#{prefix}#{cmd_name}"),
-            desc:     (cmd::DESC if cmd.const_defined?('DESC')),
-            category: (cmd::CATEGORY if cmd.const_defined?('CATEGORY')),
-            channels: (cmd::CHANNELS if cmd.const_defined?('CHANNELS')),
-            roles:    (cmd::ROLES if cmd.const_defined?('ROLES')),
-            members:  (cmd::MEMBERS if cmd.const_defined?('MEMBERS'))
+            desc:     (cmd::DESC),
+            category: (cmd::CATEGORY),
+            channels: (cmd::CHANNELS),
+            roles:    (cmd::ROLES),
+            members:  (cmd::MEMBERS)
           }
           commands[cmd_name] = Classes::Command.new(data)
         end
