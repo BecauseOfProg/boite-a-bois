@@ -1,4 +1,5 @@
 require_relative 'src/commands/command'
+require_relative 'lib/db/core'
 require_relative 'lib/classes'
 
 module BoiteABois

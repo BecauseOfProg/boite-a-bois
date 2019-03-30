@@ -13,5 +13,12 @@
     "utilities": "🔧 Utilitaires",
     "teams": "📌 Equipes"
   },
-  "weather_api_key": "The OpenWeatherMap API key"
+  "weather_api_key": "The OpenWeatherMap API key",
+  "database": {
+    "address": "",
+    "port": "",
+    "username": "",
+    "password": "",
+    "auth_source": ""
+  }
 }
