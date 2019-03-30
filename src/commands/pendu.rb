@@ -10,7 +10,7 @@ module BoiteABois
       CHANNELS = [503884326610665475, 559750253750910997]
       LISTEN = ['public']
 
-      WORDS = File.read('assets/wordlist.txt').split("\n").freeze
+      WORDS = File.read('src/assets/wordlist.txt').split("\n").freeze
 
       def self.exec(args, context)
         word = WORDS[rand(0..WORDS.length)]

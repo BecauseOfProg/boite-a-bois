@@ -2,6 +2,7 @@ require_relative 'command'
 
 module BoiteABois
   module Commands
+    # The minesweeper game on Discord
     class Minesweeper < Command
 
       CATEGORY = 'games'
@@ -29,6 +30,11 @@ module BoiteABois
         end
       end
 
+      # Generate a minesweeper grid
+      #
+      # @param width [Integer] Grid's width
+      # @param height [Integer] Grid's height
+      # @param mines [Integer] The number of mines
       def self.generate(width = 9, height = 9, mines = 10)
         # Defining emojis
         emojis = ['◻', ':one:', ':two:', ':three:', ':four:', ':five:', ':six:', ':seven:', ':eight:', '💣']

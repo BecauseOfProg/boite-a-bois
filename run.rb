@@ -2,44 +2,36 @@ require 'discordrb'
 require 'openweathermap'
 require 'json'
 
-require_relative 'core'
-
 config_file = File.dirname(__FILE__) + '/config.json'
 
-if File::exist?(config_file)
+raise StandardError, 'The configuration file is needed at the root of the project.' unless File::exist?(config_file)
 
-  json = JSON.parse(File.read(config_file))
+$config = JSON.parse(File.read(config_file))
 
-  if json['debug']
-    debug = :debug
-  else
-    debug = :normal
-  end
-  bot = Discordrb::Bot.new token: json['token'], client_id: json['client_id'], log_mode: debug, ignore_bots: true
+require_relative 'core'
 
-  bot.ready do
+bot = Discordrb::Bot.new(token: $config['token'], 
+                         client_id: $config['client_id'], 
+                         log_mode: $config['debug'] ? :debug : :normal, 
+                         ignore_bots: true)
+
+bot.ready { $core = BoiteABois::Core.new bot }
+
+bot.message do |event|
+  msg = event.content
+  if $core == nil
     $core = BoiteABois::Core.new bot
   end
-
-  bot.message do |event|
-    msg = event.content
-    if $core == nil
-      $core = BoiteABois::Core.new bot
-    end
-    prefix = $core.config['prefix']
-    regex = '^' + Regexp.escape(prefix) + '([a-zA-Z]+)( (.+)?)?'
-    regex = Regexp.new regex
-    resp = regex.match(msg)
-    args = []
-    if resp != nil
-      cmd = resp[1]
-      args = resp[3].split(' ') if resp[3] != nil
-      $core.onCommand(cmd, args, event)
-    end
+  prefix = $config['prefix']
+  regex = '^' + Regexp.escape(prefix) + '([a-zA-Z]+)( (.+)?)?'
+  regex = Regexp.new regex
+  resp = regex.match(msg)
+  args = []
+  if resp != nil
+    cmd = resp[1]
+    args = resp[3].split(' ') if resp[3] != nil
+    $core.onCommand(cmd, args, event)
   end
-
-  bot.run
-
-else
-  puts 'Config file needed'
 end
+
+bot.run

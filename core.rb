@@ -1,14 +1,10 @@
-require_relative 'lib/commands/command'
-require_relative 'lib/constants'
+require_relative 'src/commands/command'
 require_relative 'lib/classes'
 
 module BoiteABois
   class Core
     # return [Hash<Commands::Command>] all the commands defined in the bot
     attr_reader :commands
-
-    # return [Hash] the bot configuration
-    attr_reader :config
 
     # return [OpenWeatherMap::API] The weather API object to use for some commands
     attr_reader :weather_api
@@ -26,8 +22,7 @@ module BoiteABois
       raise ArgumentError, 'Not an instance of Discordrb::Bot' unless bot.is_a? Discordrb::Bot
       @bot = bot
       @core_folder = File.dirname(__FILE__)
-      @config = JSON.parse(File.read(@core_folder + '/config.json'))
-      @weather_api = OpenWeatherMap::API.new(@config['weather_api_key'], 'fr', 'metric')
+      @weather_api = OpenWeatherMap::API.new($config['weather_api_key'], 'fr', 'metric')
       @commands = listCommands()
     end
 
@@ -89,8 +84,8 @@ module BoiteABois
     # @param guild_id [Integer] (unused yet)
     def listCommands(guild_id = nil)
       commands = {}
-      prefix = @config['prefix']
-      Dir["#{@core_folder}/lib/commands/*.rb"].each do |path|
+      prefix = $config['prefix']
+      Dir["#{@core_folder}/src/commands/*.rb"].each do |path|
         resp = Regexp.new("([a-z0-9]+)\.rb$").match(path)
         if resp != nil && resp[1] != 'command'
           cmd_name = resp[1]
@@ -118,7 +113,7 @@ module BoiteABois
     #
     # @param command [String] the command's name
     def loadCommand(command)
-      require_relative "lib/commands/#{command}"
+      require_relative "src/commands/#{command}"
       eval "Commands::#{command.capitalize}"
     end
   end

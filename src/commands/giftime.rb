@@ -8,14 +8,14 @@ module BoiteABois
       USAGE = 'giftime'
       DESC = 'Envoyer un GIF aléatoire'
 
-      GIF = [
+      GIF_LIST = [
         'https://imgur.com/a/KBZyYKm', # << Vous n'avez pas les bases >>
         'https://imgur.com/a/4jwuayw' # << Rêves bizarres >>
       ].freeze
 
       def self.exec(args, context)
         context.message.delete
-        context.send GIF.sample
+        context.send GIF_LIST.sample
       end
 
     end
