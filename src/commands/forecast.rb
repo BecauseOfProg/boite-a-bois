@@ -14,7 +14,8 @@ module BoiteABois
           data = $core.weather_api.forecast(args[0])
           context.send "￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ #{data.city.name} :flag_#{data.city.country.downcase}: - Prévisions"
           data.forecast.each do |condition|
-            context.send "￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ **#{condition.time.day}/#{condition.time.month}**
+            next unless condition.time.hour % 2 == 0
+            context.send "￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ **#{condition.time.day}/#{condition.time.month} à #{condition.time.hour}h**
   ￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶ ￶￶#{condition.emoji} #{condition.description.capitalize}
 
 :thermometer: Température : #{condition.temperature}°C
