@@ -34,7 +34,7 @@ module BoiteABois
     # @param context [Discordrb::Event::MessageEvent] the command context
     def onCommand(cmd, args, context)
       if @commands[cmd.downcase].nil?
-        context.send_message "❓ Commande inconnue. Faites #{prefix}help pour avoir la liste complète des commandes autorisées."
+        context.send_message "❓ Commande inconnue. Faites #{$config['prefix']}help pour avoir la liste complète des commandes autorisées."
       else
         command = @commands[cmd.downcase]
 
