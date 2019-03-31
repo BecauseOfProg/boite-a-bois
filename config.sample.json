@@ -2,6 +2,7 @@
   "debug": false,
   "token": "Your bot's token",
   "client_id": "Your bot's client ID",
+  "version": "1.2.1",
   "website": "Your website",
   "prefix": "Commands' prefix",
   "color": "12000284",

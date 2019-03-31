@@ -11,7 +11,7 @@ module BoiteABois
     attr_reader :weather_api
 
     # Bot version
-    VERSION = '1.1.2'
+    VERSION = $config['version']
 
     # Library used for the bot
     LIBRARY = 'DiscordRB'
