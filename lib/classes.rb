@@ -1,3 +1,5 @@
+require_relative 'exceptions'
+
 module BoiteABois
   module Classes
     # Command class
