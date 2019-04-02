@@ -37,6 +37,11 @@ module BoiteABois
       # @return [Array<String>] where the command should be listened for
       attr_reader :listen
 
+      LISTEN = {
+        'public' => 'salon public',
+        'private' => 'message privé'
+      }
+
       # Initialize the Command object
       #
       # @param data [Hash] command data
@@ -55,7 +60,7 @@ module BoiteABois
       end
 
       def to_s
-        "#{@usage} : #{@description}"
+        s = "• `#{$config['prefix']}#{@name}` : #{@description}\nUtilisation : `#{@usage}`\nS'exécute en #{@listen.map {|mode| LISTEN[mode]}.join(' et ')}"
       end
     end
 
