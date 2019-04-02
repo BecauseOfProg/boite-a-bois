@@ -18,14 +18,7 @@ module BoiteABois
             commandList[command.category] << "#{command}\n"
           end
         end
-        embed = Discordrb::Webhooks::Embed.new(
-          title: 'Liste des commandes',
-          color: $config['color'].to_i,
-          fields: [],
-          footer: Discordrb::Webhooks::EmbedFooter.new(
-            text: "v#{$config['version']}"
-          )
-        )
+        embed = BoiteABois::Utils::embed(title: 'Liste des commandes')
         commandList.each do |cmd_category, commands|
           embed.fields << Discordrb::Webhooks::EmbedField.new(
             name: categories[cmd_category],

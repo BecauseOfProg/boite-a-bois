@@ -42,14 +42,20 @@ module BoiteABois
               letters << trial_letter
               if hidden_word == word
                 context.send "**🙌 Bravo ! Vous avez trouvé le mot #{word} !**"
-                context.send "**📊 Statistiques :**\n\n#{stats.to_s}"
+                context.send_embed('', BoiteABois::Utils::embed(
+                  title: "📊 Statistiques",
+                  description: stats.to_s
+                ))
                 win = true
               end
             end
             unless win
               if false_letters.length >= max_errors
                 context.send "**😥 C'est perdu ! Retentez votre chance !**\n\nLe mot était **#{word}** !"
-                context.send "**📊 Statistiques :**\n\n#{stats.to_s}"
+                context.send_embed('', BoiteABois::Utils::embed(
+                  title: "📊 Statistiques",
+                  description: stats.to_s
+                ))
                 nil
               else
                 play.edit "▶ `#{hidden_word}`\nUtilisées : #{false_letters.join(', ').chomp(', ')}\nErreurs restantes : #{max_errors - false_letters.length}"

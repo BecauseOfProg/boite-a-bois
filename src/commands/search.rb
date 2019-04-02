@@ -65,17 +65,19 @@ module BoiteABois
             article['tags'].each do |tag|
               description << "##{tag} "
             end
-            context.send_embed('', Discordrb::Webhooks::Embed.new(
+            embed = BoiteABois::Utils::embed(
               title: article['title'],
               description: description,
-              color: $config['color'].to_i,
+              timestamp: Time.parse(article['date']),
               url: "https://becauseofprog.fr/blog/#{article['url']}-#{article['id']}",
               thumbnail: Discordrb::Webhooks::EmbedThumbnail.new(url: article['banner']),
+              footer: nil,
               author: Discordrb::Webhooks::EmbedAuthor.new(
                 name: article['author']['name'],
                 icon_url: article['author']['avatar']
               )
-            ))
+            )
+            context.send_embed('', embed)
           end
         end
       end
@@ -84,11 +86,10 @@ module BoiteABois
       def self.search_user(args, context)
         begin
           user = make_request(URLS[:user] + args[1])['user']
-          embed = Discordrb::Webhooks::Embed.new(
-            color: $config['color'].to_i,
-            thumbnail: Discordrb::Webhooks::EmbedThumbnail.new(url: user['picture']),
+          embed = BoiteABois::Utils::embed(
             title: "#{user['displayname']} (#{user['username']})",
             description: "#{user['description']}\n#{user['is_email_public'] ? user['email'] : ''}\n",
+            thumbnail: Discordrb::Webhooks::EmbedThumbnail.new(url: user['picture']),
             fields: [
               Discordrb::Webhooks::EmbedField.new(
                 name: 'Réseaux sociaux',
