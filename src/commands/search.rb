@@ -9,16 +9,13 @@ module BoiteABois
       USAGE = 'search'
       CHANNELS = [272639973352538123]
 
-      # @return [Hash<Symbol,String>] Root URLs of the API
-      API_URLS = {
-        old: 'https://becauseofprog.fr/api/',
-        api: 'https://api.becauseofprog.fr/v1/'
-      }
+      # @return String Root URL of the API
+      API_URL = 'https://api.becauseofprog.fr/v1/'
 
       # @return [Hash<Symbol,String>] complete URLs to the API
       URLS = {
-        article: (API_URLS[:old] + 'article/'),
-        user:    (API_URLS[:api] + 'users/')
+        article: (API_URL + 'blog-posts'),
+        user:    (API_URL + 'users/')
       }
 
       # @return [Hash<Symbol,Lambda>] All the commands available for task management
@@ -35,7 +32,7 @@ module BoiteABois
             function.call(args, context) 
           end
         end
-        context.send ":x: Argument inconnu : #{args[0]}" unless found
+        context.send(":x: Argument inconnu : #{args[0]}") unless found
       end
 
       # Make a request to the API
@@ -55,26 +52,26 @@ module BoiteABois
       def self.search_article(args, context)
         query = args[1].downcase
         articles = make_request(URLS[:article])['data']
-        articles.select! {|_, article| article['title'].downcase.include?(query) || article['description'].downcase.include?(query)}
+        articles.select! {|article| article['title'].downcase.include?(query) || article['description'].downcase.include?(query)}
         if articles.length == 0
-          context.send ':satellite_orbital: :x: La recherche n\'a pas abouti.'
+          context.send(':satellite_orbital: :x: La recherche n\'a pas abouti.')
         else
-          context.send "#{articles.length} article(s) trouvés :"
-          articles.each do |_, article|
+          context.send("#{articles.length} article(s) trouvés :")
+          articles.each do |article|
             description = "#{article['description']}\n"
-            article['tags'].each do |tag|
-              description << "##{tag} "
+            article['labels'].each do |label|
+              description << "##{label} "
             end
             embed = BoiteABois::Utils::embed(
               title: article['title'],
               description: description,
-              timestamp: Time.parse(article['date']),
-              url: "https://becauseofprog.fr/blog/#{article['url']}-#{article['id']}",
+              timestamp: Time.at(article['timestamp']),
+              url: "https://becauseofprog.fr/article/#{article['url']}",
               thumbnail: Discordrb::Webhooks::EmbedThumbnail.new(url: article['banner']),
               footer: nil,
               author: Discordrb::Webhooks::EmbedAuthor.new(
-                name: article['author']['name'],
-                icon_url: article['author']['avatar']
+                name: article['author']['displayname'],
+                icon_url: article['author']['picture']
               )
             )
             context.send_embed('', embed)
@@ -102,7 +99,7 @@ module BoiteABois
           end
           context.send_embed('', embed)
         rescue BoiteABois::Exceptions::NotFound
-          context.send ':x: Utilisateur inconnu.'
+          context.send(':x: Utilisateur inconnu.')
         end
       end
     end
