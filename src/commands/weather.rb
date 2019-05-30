@@ -24,7 +24,7 @@ module BoiteABois
           )
           context.send_embed('', embed)
         rescue OpenWeatherMap::Exceptions::UnknownLocation
-          context.send ':satellite_orbital: :x: Cette localisation est inconnue.'
+          context.send(':satellite_orbital: :x: Cette localisation est inconnue.')
         end
       end
 

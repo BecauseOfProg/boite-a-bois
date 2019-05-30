@@ -36,7 +36,7 @@ module BoiteABois
             function.call(args, context) 
           end
         end
-        context.send ":x: Argument inconnu : #{args[0]}" unless found
+        context.send(":x: Argument inconnu : #{args[0]}") unless found
       end
 
       # Find a task list
@@ -69,13 +69,13 @@ module BoiteABois
         query.all.each do |task_list|
           message << "• #{task_list.title} (#{task_list.name})\n"
         end
-        context.send message
+        context.send(message)
       end
 
       # Command - Create a task list
       def self.create_list(args, context)
         title = args[2..].join(' ')
-        message = context.send title
+        message = context.send(title)
         ::Tasks.insert(
           name: args[1],
           title: title,

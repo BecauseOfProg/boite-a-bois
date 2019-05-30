@@ -25,7 +25,7 @@ module BoiteABois
       @bot = bot
       @core_folder = File.dirname(__FILE__)
       @weather_api = OpenWeatherMap::API.new($config['weather_api_key'], 'fr', 'metric')
-      @commands = listCommands()
+      @commands = list_commands
     end
 
     # Trigger a command
@@ -33,9 +33,9 @@ module BoiteABois
     # @param cmd [String] command's name
     # @param args [Array] arguments passed to the command
     # @param context [Discordrb::Event::MessageEvent] the command context
-    def onCommand(cmd, args, context)
+    def on_command(cmd, args, context)
       if @commands[cmd.downcase].nil?
-        context.send_message "❓ Commande inconnue. Faites #{$config['prefix']}help pour avoir la liste complète des commandes autorisées."
+        context.send_message("❓ Commande inconnue. Faites #{$config['prefix']}help pour avoir la liste complète des commandes autorisées.")
       else
         command = @commands[cmd.downcase]
 
@@ -45,12 +45,11 @@ module BoiteABois
           return unless command.listen.include?('public')
         end
 
-        cmd = loadCommand cmd.downcase
-        have_alias = true unless command.alias.nil?
+        have_alias = command.alias.nil? ? false : true
         while have_alias
           have_alias = false
-          cmd = loadCommand(command.alias)
-          have_alias = true unless command.alias.nil?
+          cmd = load_command(command.alias)
+          have_alias = true unless cmd.alias.nil?
         end
         authorized = false
 
@@ -58,12 +57,12 @@ module BoiteABois
         unless context.channel.private?
           unless command.channels.nil?
             unless command.channels.include?(context.channel.id)
-              context.send_message ':x: Vous n\'avez pas la permission d\'exécuter cette commande dans ce salon.'
+              context.send_message(':x: Vous n\'avez pas la permission d\'exécuter cette commande dans ce salon.')
               return
             end
           end
         end
-        
+
         # Verifying if there is members or roles restrictions - if yes, do the check - if no, authorize the command
         if !command.members.nil?
           authorized = true if command.members.include?(context.user.id)
@@ -84,20 +83,20 @@ module BoiteABois
     # List all the available commands
     #
     # @param guild_id [Integer] (unused yet)
-    def listCommands(guild_id = nil)
+    def list_commands
       commands = {}
       prefix = $config['prefix']
       Dir["#{@core_folder}/src/commands/*.rb"].each do |path|
         resp = Regexp.new("([a-z0-9]+)\.rb$").match(path)
         if resp != nil && resp[1] != 'command'
           cmd_name = resp[1]
-          cmd = loadCommand(cmd_name)
+          cmd = load_command(cmd_name)
           data = {
             name:     cmd_name,
             function: lambda { |args, context| cmd.exec(args, context) },
             alias:    (cmd::ALIAS),
             show:     (cmd::SHOW),
-            usage:    (cmd.const_defined?('USAGE') ? "#{prefix}#{cmd::USAGE.to_s}" : "#{prefix}#{cmd_name}"),
+            usage:    (cmd.const_defined?('USAGE') ? "#{prefix}#{cmd::USAGE}" : "#{prefix}#{cmd_name}"),
             desc:     (cmd::DESC),
             category: (cmd::CATEGORY),
             channels: (cmd::CHANNELS),
@@ -114,9 +113,9 @@ module BoiteABois
     # Load a command from the files
     #
     # @param command [String] the command's name
-    def loadCommand(command)
+    def load_command(command)
       require_relative "src/commands/#{command}"
-      eval "Commands::#{command.capitalize}"
+      eval("Commands::#{command.capitalize}")
     end
   end
 end

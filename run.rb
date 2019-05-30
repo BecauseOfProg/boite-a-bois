@@ -20,17 +20,17 @@ bot.ready { $core = BoiteABois::Core.new bot }
 bot.message do |event|
   msg = event.content
   if $core == nil
-    $core = BoiteABois::Core.new bot
+    $core = BoiteABois::Core.new(bot)
   end
   prefix = $config['prefix']
   regex = '^' + Regexp.escape(prefix) + '([a-zA-Z]+)( (.+)?)?'
-  regex = Regexp.new regex
+  regex = Regexp.new(regex)
   resp = regex.match(msg)
   args = []
   if resp != nil
     cmd = resp[1]
     args = resp[3].split(' ') if resp[3] != nil
-    $core.onCommand(cmd, args, event)
+    $core.on_command(cmd, args, event)
   end
 end
 

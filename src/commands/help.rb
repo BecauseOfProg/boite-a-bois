@@ -8,21 +8,21 @@ module BoiteABois
       USAGE = 'help'
       DESC = 'Lister toutes les commandes disponibles'
 
-      def self.exec(args, context)
+      def self.exec(_args, context)
         commands = $core.commands
         categories = $config['categories']
-        commandList = {}
-        commands.each do |name, command|
+        command_list = {}
+        commands.each do |_, command|
           if command.show && !command.alias
-            commandList[command.category] = '' if commandList[command.category].nil?
-            commandList[command.category] << "#{command}\n"
+            command_list[command.category] = '' if command_list[command.category].nil?
+            command_list[command.category] << "#{command}\n"
           end
         end
         embed = BoiteABois::Utils::embed(title: 'Liste des commandes')
-        commandList.each do |cmd_category, commands|
+        command_list.each do |cmd_category, command|
           embed.fields << Discordrb::Webhooks::EmbedField.new(
             name: categories[cmd_category],
-            value: commands
+            value: command
           )
         end
         context.channel.send_embed('', embed)

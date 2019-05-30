@@ -10,12 +10,13 @@ module BoiteABois
 
       GIF_LIST = [
         'https://imgur.com/a/KBZyYKm', # << Vous n'avez pas les bases >>
-        'https://imgur.com/a/4jwuayw' # << Rêves bizarres >>
+        'https://imgur.com/a/4jwuayw', # << Rêves bizarres >>
+        'https://tenor.com/view/traffic-fbiopen-up-raid-gif-13450966' # << FBI OPEN UP! >>
       ].freeze
 
-      def self.exec(args, context)
+      def self.exec(_args, context)
         context.message.delete
-        context.send GIF_LIST.sample
+        context.send(GIF_LIST.sample)
       end
 
     end

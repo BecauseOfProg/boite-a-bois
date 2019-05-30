@@ -20,11 +20,11 @@ module BoiteABois
         max_errors = args[0].to_i
         win = false
         
-        play = context.send ":hugging: **#{context.user.mention} a démarré une partie de pendu !**"
+        play = context.send(":hugging: **#{context.user.mention} a démarré une partie de pendu !**")
         sleep(1)
         context.message.delete
         stats = BoiteABois::Classes::Statistics.new
-        play.edit ":arrow_forward: `#{hidden_word}`\nErreurs restantes : #{max_errors}"
+        play.edit(":arrow_forward: `#{hidden_word}`\nErreurs restantes : #{max_errors}")
         context.channel.await(:message) do |event|
           trial_letter = event.content[0].capitalize
           event.message.delete
@@ -41,7 +41,7 @@ module BoiteABois
               hidden_word = trial_word
               letters << trial_letter
               if hidden_word == word
-                context.send "**🙌 Bravo ! Vous avez trouvé le mot #{word} !**"
+                context.send("**🙌 Bravo ! Vous avez trouvé le mot #{word} !**")
                 context.send_embed('', BoiteABois::Utils::embed(
                   title: "📊 Statistiques",
                   description: stats.to_s
@@ -51,14 +51,14 @@ module BoiteABois
             end
             unless win
               if false_letters.length >= max_errors
-                context.send "**😥 C'est perdu ! Retentez votre chance !**\n\nLe mot était **#{word}** !"
+                context.send("**😥 C'est perdu ! Retentez votre chance !**\n\nLe mot était **#{word}** !")
                 context.send_embed('', BoiteABois::Utils::embed(
                   title: "📊 Statistiques",
                   description: stats.to_s
                 ))
                 nil
               else
-                play.edit "▶ `#{hidden_word}`\nUtilisées : #{false_letters.join(', ').chomp(', ')}\nErreurs restantes : #{max_errors - false_letters.length}"
+                play.edit("▶ `#{hidden_word}`\nUtilisées : #{false_letters.join(', ').chomp(', ')}\nErreurs restantes : #{max_errors - false_letters.length}")
                 false
               end
             end

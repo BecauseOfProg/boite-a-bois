@@ -11,22 +11,22 @@ module BoiteABois
       CHANNELS = [541314079298551819]
 
       def self.exec(args, context)
-        width, height, mines = args.map {|x| x.to_i}
+        width, height, mines = args.map(&:to_i)
         if width.nil?
           width = height = 9
           mines = 10
         end
         if mines <= 0
-          context.send ':x: Veuillez mettre au moins une mine.'
+          context.send(':x: Veuillez mettre au moins une mine.')
           return
         elsif mines >= width * height
-          context.send '💥 Il y a trop de mines ! Réduisez leur nombre.'
+          context.send('💥 Il y a trop de mines ! Réduisez leur nombre.')
           return
         end
         begin
-          context.send generate(width, height, mines)
+          context.send(generate(width, height, mines))
         rescue Discordrb::Errors::MessageTooLong
-          context.send 'La grille est trop volumineuse. Essayez de réduire sa taille.'
+          context.send('La grille est trop volumineuse. Essayez de réduire sa taille.')
         end
       end
 
@@ -54,9 +54,9 @@ module BoiteABois
         end
       
         # Generating numbers around mines
-        height.times do |height|
-          width.times do |width|
-            if table[height][width] == emojis[9]
+        height.times do |y|
+          width.times do |x|
+            if table[y][x] == emojis[9]
               next
             end
             mines = 0
@@ -64,15 +64,15 @@ module BoiteABois
             (-1..1).each do |i|
               (-1..1).each do |j|
                 next if i == 0 && j == 0
-                neighbor_cell_height = table[height + i]
-                unless neighbor_cell_height == Array.new(width) || neighbor_cell_height.nil?
-                  neighbor_cell = neighbor_cell_height[width + j]
+                neighbor_cell_height = table[y + i]
+                unless neighbor_cell_height == Array.new(x) || neighbor_cell_height.nil?
+                  neighbor_cell = neighbor_cell_height[x + j]
                   mines += 1 if neighbor_cell == emojis[9]
                 end
               end
             end
       
-            table[height][width] = emojis[mines]
+            table[y][x] = emojis[mines]
           end
         end
       

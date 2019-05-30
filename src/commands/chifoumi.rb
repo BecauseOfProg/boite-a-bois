@@ -28,7 +28,7 @@ module BoiteABois
         SCISSORS + SCISSORS => nil
       }
 
-      def self.exec(args, context)
+      def self.exec(_args, context)
         rounds = []
         round_number = 0
         wins = {
@@ -36,33 +36,34 @@ module BoiteABois
           user: 0
         }
 
-        play = context.send '👉 **Chioumi - Chargement...**'
-        play.react ROCK
-        play.react PAPER
-        play.react SCISSORS
+        play = context.send('👉 **Chioumi - Chargement...**')
+        play.react(ROCK)
+        play.react(PAPER)
+        play.react(SCISSORS)
         context.message.delete
         until wins[:bot] == 3 || wins[:user] == 3
           round_number += 1
-          message = "👉 **Chioumi - #{context.user.mention} VS Boîte à bois\n#{wins[:user]} - #{wins[:bot]}**\n"
+          message = "👉 **Chifoumi - #{context.user.mention} VS Boîte à bois\n#{wins[:user]} - #{wins[:bot]}**\n"
           rounds.each do |round|
             message << "\n#{round[0]} - #{round[1]}"
           end
-          play.edit message
+          play.edit(message)
           shot = SHOTS.sample
           event = context.bot.add_await!(Discordrb::Events::ReactionAddEvent)
           next unless event.user == context.user
           case COMBOS[event.emoji.name + shot]
           when 'user' then wins[:user] += 1
           when 'bot' then wins[:bot] += 1
+          else raise RuntimeError, "Internal error : chifoumi combo not recognized : #{event.emoji.name + shot}"
           end
           rounds << [event.emoji.name, shot]
           play.delete_reaction(context.user, event.emoji.name)
         end
         score = "#{wins[:user]} à #{wins[:bot]}"
         if wins[:user] == 3
-          context.send "**🙌 Bravo, vous avez gagné #{score} !**"
+          context.send("**🙌 Bravo, vous avez gagné #{score} !**")
         else
-          context.send "**😥 Vous avez perdu #{score}... Retentez votre chance !**"
+          context.send("**😥 Vous avez perdu #{score}... Retentez votre chance !**")
         end
       end
     end
