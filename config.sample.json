@@ -4,7 +4,7 @@
   "client_id": "Your bot's client ID",
   "illustration": "Bot's illustration (can be its avatar)",
   "name": "Bot's name",
-  "version": "1.2.1",
+  "version": "2.5.7",
   "website": "Your website",
   "prefix": "Commands' prefix",
   "color": "12000284",
