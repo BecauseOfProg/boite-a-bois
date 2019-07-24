@@ -1,10 +1,18 @@
 <div align="center">
-  <img src="https://media.discordapp.net/attachments/272639040434601994/558350133092286479/unknown.png" width="200" alt="logo">
+  <img src="https://cdn.becauseofprog.fr/v2/projects/boite-a-bois.png" width="200" alt="logo">
   <h1>Boite à bois</h1>
   <h6><i>literally "box of wood"</i></h6>
   <h3>The French Discord bot of the BecauseOfProg.</h3>
   <a href="https://becauseofprog.fr">Website</a> - <a href="https://discord.becauseofprog.fr">Discord server</a>
 </div>
+
+- [🌈 Features](#-features)
+- [📲 Requirements](#-requirements)
+- [⏩ First start](#-first-start)
+- [🔧 Creating commands](#-creating-commands)
+- [📚 Creating database models](#-creating-database-models)
+- [📜 Credits](#-credits)
+- [🔐 License](#-license)
 
 ## 🌈 Features
 
@@ -77,10 +85,13 @@ All the models are defined in two files :
 
 The schemas are in the YML format. All is documented [on the mongocore gem page](https://github.com/fugroup/mongocore)
 
-## Credits
+## 📜 Credits
 
 - Library : [DiscordRB](https://github.com/meew0/discordrb)
-- License : [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
 - Developers :
   - [Whaxion](https://github.com/whaxion) : first base
   - [Exybore](https://github.com/exybore) : maintainor, actual main developer
+
+## 🔐 License
+
+[GNU GPL v3](LICENSE)
