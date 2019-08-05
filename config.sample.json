@@ -5,6 +5,10 @@
   "illustration": "https://cdn.becauseofprog.fr/v2/projects/boite-a-bois.png",
   "name": "Boîte à bois",
   "version": "2.5.7",
+  "maintainer": {
+    "name": "Exybore",
+    "link": "https://exybore.becauseofprog.fr"
+  },
   "website": "https://github.com/BecauseOfProg/boite-a-bois",
   "prefix": "b@",
   "color": "12000284",
