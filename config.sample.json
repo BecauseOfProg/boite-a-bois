@@ -1,12 +1,12 @@
 {
   "debug": false,
-  "token": "Your bot's token",
-  "client_id": "Your bot's client ID",
-  "illustration": "Bot's illustration (can be its avatar)",
-  "name": "Bot's name",
+  "token": "Bot's token",
+  "client_id": "549219394513797130",
+  "illustration": "https://cdn.becauseofprog.fr/v2/projects/boite-a-bois.png",
+  "name": "Boîte à bois",
   "version": "2.5.7",
-  "website": "Your website",
-  "prefix": "Commands' prefix",
+  "website": "https://github.com/BecauseOfProg/boite-a-bois",
+  "prefix": "b@",
   "color": "12000284",
   "categories": {
     "default": "Non classé",
@@ -14,14 +14,14 @@
     "games": "🎮 Jeux",
     "fun": "🎉 Fun",
     "utilities": "🔧 Utilitaires",
-    "teams": "📌 Equipes"
+    "teams": "📌 Équipes"
   },
   "weather_api_key": "The OpenWeatherMap API key",
   "database": {
-    "address": "",
-    "port": "",
-    "username": "",
+    "address": "localhost",
+    "port": "1234",
+    "username": "boite-a-bois",
     "password": "",
-    "auth_source": ""
+    "auth_source": "boite-a-bois"
   }
 }
