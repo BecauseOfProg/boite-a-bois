@@ -6,7 +6,7 @@ module BoiteABois
       
       CATEGORY = 'utilities'
       DESC = 'Rechercher sur la BecauseOfProg'
-      USAGE = 'search'
+      USAGE = 'search <article|user> keyword'
       CHANNELS = [272639973352538123]
 
       # @return String Root URL of the API
@@ -68,7 +68,10 @@ module BoiteABois
               timestamp: Time.at(article['timestamp']),
               url: "https://becauseofprog.fr/article/#{article['url']}",
               thumbnail: Discordrb::Webhooks::EmbedThumbnail.new(url: article['banner']),
-              footer: nil,
+              footer: Discordrb::Webhooks::EmbedFooter.new(
+                text: 'Blog BecauseOfProg',
+                icon_url: 'https://cdn.becauseofprog.fr/v2/sites/becauseofprog.fr/assets/logos/bop-512.png'
+              ),
               author: Discordrb::Webhooks::EmbedAuthor.new(
                 name: article['author']['displayname'],
                 icon_url: article['author']['picture']

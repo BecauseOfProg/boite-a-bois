@@ -15,7 +15,10 @@ bot = Discordrb::Bot.new(token: $config['token'],
                          log_mode: $config['debug'] ? :debug : :normal, 
                          ignore_bots: true)
 
-bot.ready { $core = BoiteABois::Core.new bot }
+bot.ready {
+  $core = BoiteABois::Core.new(bot)
+  bot.game = "#{$config['prefix']}help"
+}
 
 bot.message do |event|
   msg = event.content
