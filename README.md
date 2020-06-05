@@ -2,10 +2,11 @@
   <img src="https://cdn.becauseofprog.fr/v2/projects/boite-a-bois.png" width="200" alt="logo">
   <h1>Boite à bois</h1>
   <h6><i>literally "box of wood"</i></h6>
-  <h3>The French Discord bot of the BecauseOfProg.</h3>
-  <a href="https://becauseofprog.fr">Website</a> - <a href="https://discord.becauseofprog.fr">Discord server</a>
+  <h3>Discord bot to play games and do other stuff</h3>
+  <a href="https://discord.com/api/oauth2/authorize?client_id=549219394513797130&permissions=26624&scope=bot">Invite</a> - <a href="https://becauseofprog.fr">Website</a> - <a href="https://discord.becauseofprog.fr">Discord server</a> - <a href="./LICENSE">License</a>
 </div>
 
+- [🚀 Invite the bot](#-invite-the-bot)
 - [🌈 Features](#-features)
 - [📲 Requirements](#-requirements)
 - [⏩ First start](#-first-start)
@@ -13,6 +14,14 @@
 - [📚 Creating database models](#-creating-database-models)
 - [📜 Credits](#-credits)
 - [🔐 License](#-license)
+
+## 🚀 Invite the bot
+
+**⚠ For the moment, only french is available. _onk onk baguette_**
+
+Use our bot on your server using this [awesome link](https://discord.com/api/oauth2/authorize?client_id=549219394513797130&permissions=26624&scope=bot)! *no paid features I swear*
+
+To get started, type `b@help` and see the list of commands. Try playing some games such as tic-tac-toe -amazing- or hangman -wholesome!-.
 
 ## 🌈 Features
 
@@ -90,7 +99,7 @@ The schemas are in the YML format. All is documented [on the mongocore gem page]
 - Library : [DiscordRB](https://github.com/meew0/discordrb)
 - Developers :
   - [Whaxion](https://github.com/whaxion) : first base
-  - [Exybore](https://github.com/exybore) : maintainor, actual main developer
+  - [Exybore](https://github.com/exybore) : maintainer, actual main developer
 
 ## 🔐 License
 
