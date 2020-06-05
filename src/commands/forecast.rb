@@ -3,11 +3,9 @@ require_relative 'command'
 module BoiteABois
   module Commands
     class Forecast < Command
-
       CATEGORY = 'weather'
       USAGE = 'forecast <location>'
       DESC = 'Obtenir les prévisions météo sur 5 jours d\'un endroit précis'
-      CHANNELS = [556896893481779205]
 
       def self.exec(args, context)
         begin
@@ -27,7 +25,6 @@ module BoiteABois
           context.send(':satellite_orbital: :x: Cette localisation est inconnue.')
         end
       end
-
     end
   end
 end

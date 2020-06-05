@@ -3,7 +3,6 @@ require_relative 'command'
 module BoiteABois
   module Commands
     class Giftime < Command
-
       CATEGORY = 'fun'
       USAGE = 'giftime'
       DESC = 'Envoyer un GIF aléatoire'
@@ -18,7 +17,6 @@ module BoiteABois
         context.message.delete
         context.send(GIF_LIST.sample)
       end
-
     end
   end
 end

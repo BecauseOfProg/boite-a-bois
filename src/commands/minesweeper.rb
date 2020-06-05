@@ -4,11 +4,9 @@ module BoiteABois
   module Commands
     # The minesweeper game on Discord
     class Minesweeper < Command
-
       CATEGORY = 'games'
       USAGE = 'minesweeper [width] [height] [mines]'
       DESC = 'Générer une grille de démineur (par défaut 9x9 avec 10 mines)'
-      CHANNELS = [541314079298551819]
 
       def self.exec(args, context)
         width, height, mines = args.map(&:to_i)
@@ -20,7 +18,7 @@ module BoiteABois
           context.send(':x: Veuillez mettre au moins une mine.')
           return
         elsif mines >= width * height
-          context.send('💥 Il y a trop de mines ! Réduisez leur nombre.')
+          context.send(':boom: Il y a trop de mines ! Réduisez leur nombre.')
           return
         end
         begin
@@ -37,7 +35,7 @@ module BoiteABois
       # @param mines [Integer] The number of mines
       def self.generate(width = 9, height = 9, mines = 10)
         # Defining emojis
-        emojis = ['◻', ':one:', ':two:', ':three:', ':four:', ':five:', ':six:', ':seven:', ':eight:', '💣']
+        emojis = %w[◻ :one: :two: :three: :four: :five: :six: :seven: :eight: 💣]
       
         # Generating the base table
         table = Array.new(height)

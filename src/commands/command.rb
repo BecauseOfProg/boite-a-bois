@@ -2,7 +2,6 @@ module BoiteABois
   module Commands
     # The main command class, from which all commands inherit.
     class Command
-
       # @return [nil, String] The alias of the command
       ALIAS = nil
 
@@ -22,13 +21,13 @@ module BoiteABois
       MEMBERS = nil
 
       # @return [String] The command description
-      DESC = 'Command.'
+      DESC = 'A basic command.'
 
       # @return [Array<String>] The context in which the command will listen. Can be :
       #   - public : in a server channel
       #   - private : in a private message channel
       # Can be one of them or both.
-      LISTEN = ['public', 'private']
+      LISTEN = %w[public private]
 
       # Execute the requested command.
       #
@@ -37,8 +36,6 @@ module BoiteABois
       def self.exec(args, context)
         #NEEDED
       end
-
     end
-
   end
 end

@@ -60,7 +60,10 @@ module BoiteABois
       end
 
       def to_s
-        s = "• `#{$config['prefix']}#{@name}` : #{@description}\nUtilisation : `#{@usage}`\nS'exécute en #{@listen.map {|mode| LISTEN[mode]}.join(' et ')}"
+        s = "• `#{$config['prefix']}#{@name}` : #{@description}"
+        s << "\nUtilisation : `#{@usage}`"
+        s << "\nS'exécute en #{@listen.map {|mode| LISTEN[mode]}.join(' et ')}"
+        s
       end
     end
 
@@ -91,7 +94,9 @@ module BoiteABois
 
       # @return [String] pretty-formated statistics
       def to_s
-        message = ":clock4: Temps écoulé : #{elapsed_time} secondes\n:capital_abcd: Lettres jouées (global) : #{@letters.join(', ').chomp(', ')}\n:abcd: Lettres jouées (joueurs) :\n"
+        message = ":clock4: Temps écoulé : #{elapsed_time} secondes\n"
+        message << ":capital_abcd: Lettres jouées (global) : #{@letters.join(', ').chomp(', ')}\n"
+        message << ":abcd: Lettres jouées (joueurs) :\n"
         players.each do |mention, letters|
           message << "\n#{mention} : #{letters.join(', ').chomp(', ')}"
         end

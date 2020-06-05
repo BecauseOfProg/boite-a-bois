@@ -2,12 +2,11 @@ require_relative 'command'
 
 module BoiteABois
   module Commands
+    # Hangman game on Discord with many friends
     class Pendu < Command
-
       CATEGORY = 'games'
       USAGE = 'pendu <max_errors>'
       DESC = 'Jouer au fameux jeu du pendu'
-      CHANNELS = [503884326610665475, 559750253750910997]
       LISTEN = ['public']
 
       WORDS = File.read('src/assets/wordlist.txt').split("\n").freeze
@@ -25,7 +24,7 @@ module BoiteABois
         context.message.delete
         stats = BoiteABois::Classes::Statistics.new
         play.edit(":arrow_forward: `#{hidden_word}`\nErreurs restantes : #{max_errors}")
-        context.channel.await(:message) do |event|
+        context.channel.await!(:message) do |event|
           trial_letter = event.content[0].capitalize
           event.message.delete
           if false_letters.include? trial_letter
@@ -41,9 +40,9 @@ module BoiteABois
               hidden_word = trial_word
               letters << trial_letter
               if hidden_word == word
-                context.send("**🙌 Bravo ! Vous avez trouvé le mot #{word} !**")
+                context.send("**:tada: Bravo ! Vous avez trouvé le mot #{word} !**")
                 context.send_embed('', BoiteABois::Utils::embed(
-                  title: "📊 Statistiques",
+                  title: ':bar_chart: Statistiques',
                   description: stats.to_s
                 ))
                 win = true
@@ -51,14 +50,17 @@ module BoiteABois
             end
             unless win
               if false_letters.length >= max_errors
-                context.send("**😥 C'est perdu ! Retentez votre chance !**\n\nLe mot était **#{word}** !")
+                context.send("**:cry: C'est perdu ! Retentez votre chance !**\n\nLe mot était **#{word}** !")
                 context.send_embed('', BoiteABois::Utils::embed(
-                  title: "📊 Statistiques",
+                  title: ':bar_chart: Statistiques',
                   description: stats.to_s
                 ))
                 nil
               else
-                play.edit("▶ `#{hidden_word}`\nUtilisées : #{false_letters.join(', ').chomp(', ')}\nErreurs restantes : #{max_errors - false_letters.length}")
+                play.edit(
+                  ":arrow_forward: `#{hidden_word}`\nUtilisées : #{false_letters.join(', ').chomp(', ')}\n" +
+                  "Erreurs restantes : #{max_errors - false_letters.length}"
+                )
                 false
               end
             end
@@ -66,7 +68,7 @@ module BoiteABois
         end
       end
 
-      # Hide a word to make the players gess it
+      # Hide a word to make players guess it
       def self.hide_word(word, letters)
         word.gsub(/[^#{word[0]}#{letters}]/, '_ ')
       end

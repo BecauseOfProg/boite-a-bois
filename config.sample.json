@@ -11,14 +11,13 @@
   },
   "website": "https://github.com/BecauseOfProg/boite-a-bois",
   "prefix": "b@",
-  "color": "12000284",
+  "color": "14890803",
   "categories": {
     "default": "Non classé",
     "weather": "🌦 Météo",
     "games": "🎮 Jeux",
     "fun": "🎉 Fun",
-    "utilities": "🔧 Utilitaires",
-    "teams": "📌 Équipes"
+    "utilities": "🔧 Utilitaires"
   },
   "weather_api_key": "The OpenWeatherMap API key",
   "database": {

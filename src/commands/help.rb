@@ -3,10 +3,9 @@ require_relative 'command'
 module BoiteABois
   module Commands
     class Help < Command
-
       CATEGORY = 'utilities'
       USAGE = 'help'
-      DESC = 'Lister toutes les commandes disponibles'
+      DESC = 'Lister toutes les commandes disponibles sur le robot'
 
       def self.exec(_args, context)
         commands = $core.commands

@@ -14,9 +14,6 @@ module BoiteABois
     # Bot version
     VERSION = $config['version']
 
-    # Library used for the bot
-    LIBRARY = 'DiscordRB'
-
     # Initialize the bot core.
     #
     # @param bot [Discordrb::Bot] the Discord Bot class
@@ -35,7 +32,7 @@ module BoiteABois
     # @param context [Discordrb::Event::MessageEvent] the command context
     def on_command(cmd, args, context)
       if @commands[cmd.downcase].nil?
-        context.send_message("❓ Commande inconnue. Faites #{$config['prefix']}help pour avoir la liste complète des commandes autorisées.")
+        context.send_message(":question: Commande inconnue. Faites #{$config['prefix']}help pour avoir la liste complète des commandes autorisées.")
       else
         command = @commands[cmd.downcase]
 
@@ -51,30 +48,34 @@ module BoiteABois
           cmd = load_command(command.alias)
           have_alias = true unless cmd.alias.nil?
         end
-        authorized = false
+        authorized = true
+
+        # Channels, members and roles check are disabled for now
+        # We'll decide later if we remove them or integrate with a DB for per-server personalization
 
         # Verifying if the command is in the good channel - if not, then output an error message
-        unless context.channel.private?
-          unless command.channels.nil?
-            unless command.channels.include?(context.channel.id)
-              context.send_message(':x: Vous n\'avez pas la permission d\'exécuter cette commande dans ce salon.')
-              return
-            end
-          end
-        end
+        # unless context.channel.private?
+        #   unless command.channels.nil?
+        #     unless command.channels.include?(context.channel.id)
+        #       context.send_message(":x: Vous n'avez pas la permission d'exécuter cette commande dans ce salon.")
+        #       return
+        #     end
+        #   end
+        # end
 
-        # Verifying if there is members or roles restrictions - if yes, do the check - if no, authorize the command
-        if !command.members.nil?
-          authorized = true if command.members.include?(context.user.id)
-        elsif !command.roles.nil?
-          context.user.roles.each do |role|
-            authorized = true if command.roles.include?(role.id)
-          end
-        else
-          authorized = true
-        end
+        # Verifying if there are members or roles restrictions - if yes, do the check - if no, authorize the command
+        # if !command.members.nil?
+        #   authorized = true if command.members.include?(context.user.id)
+        # elsif !command.roles.nil?
+        #   context.user.roles.each do |role|
+        #     authorized = true if command.roles.include?(role.id)
+        #   end
+        # else
+        #   authorized = true
+        # end
 
-        authorized ? command.function.call(args, context) : context.send_message(':x: Vous n\'avez pas la permission d\'exécuter cette commande.')
+        command.function.call(args, context)
+        # context.send_message(":x: Vous n'avez pas la permission d'exécuter cette commande.")
       end
     end
 

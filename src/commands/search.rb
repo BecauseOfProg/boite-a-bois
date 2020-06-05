@@ -7,7 +7,6 @@ module BoiteABois
       CATEGORY = 'utilities'
       DESC = 'Rechercher sur la BecauseOfProg'
       USAGE = 'search <article|user> keyword'
-      CHANNELS = [272639973352538123]
 
       # @return String Root URL of the API
       API_URL = 'https://api.becauseofprog.fr/v1/'

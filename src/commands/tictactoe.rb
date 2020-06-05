@@ -6,17 +6,17 @@ module BoiteABois
       CATEGORY = 'games'
       USAGE = 'tictactoe <player>'
       DESC = 'Démarrer un morpion contre un autre joueur'
+      LISTEN = %w(public)
 
       NUMBERS = %w[:one: :two: :three:]
-
       PLAYS = {
         blank: ':white_large_square:',
         cross: ':x:',
         circle: ':o:'
       }
-
       VOID = ':black_large_square:'
       BLANK = PLAYS[:blank]
+
       WINNING = [
         %w[11 22 33],
         %w[13 22 31],
@@ -98,6 +98,9 @@ module BoiteABois
         end
       end
 
+      # Generate a tic-tac-toe grid
+      #
+      # @param grid [Array<Array<Symbol, nil>>] The grid itself
       def self.generate(grid)
         output = VOID.clone
         3.times do |i|
@@ -115,8 +118,12 @@ module BoiteABois
         output
       end
 
-      def self.get_emoji(column)
-        column.nil? ? BLANK : PLAYS[column]
+      # Find an emoji for a cell
+      # Possible values are: nil (blank), :cross, :circle
+      #
+      # @param cell [Symbol, nil] the cell from the grid
+      def self.get_emoji(cell)
+        cell.nil? ? BLANK : PLAYS[cell]
       end
     end
   end
