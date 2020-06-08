@@ -17,18 +17,18 @@ module BoiteABois
         letters = ''
         false_letters = []
         max_errors = args[0].to_i
-        win = false
         
         play = context.send(":hugging: **#{context.user.mention} a démarré une partie de pendu !**")
         sleep(1)
         context.message.delete
         stats = BoiteABois::Classes::Statistics.new
         play.edit(":arrow_forward: `#{hidden_word}`\nErreurs restantes : #{max_errors}")
-        context.channel.await!(:message) do |event|
+        loop do
+          event = context.channel.await!
           trial_letter = event.content[0].capitalize
           event.message.delete
           if false_letters.include? trial_letter
-            false
+            next
           else
             stats.players[event.user.mention] = [] if stats.players[event.user.mention].nil?
             stats.players[event.user.mention] << trial_letter
@@ -45,24 +45,21 @@ module BoiteABois
                   title: ':bar_chart: Statistiques',
                   description: stats.to_s
                 ))
-                win = true
+                break
               end
             end
-            unless win
-              if false_letters.length >= max_errors
-                context.send("**:cry: C'est perdu ! Retentez votre chance !**\n\nLe mot était **#{word}** !")
-                context.send_embed('', BoiteABois::Utils::embed(
-                  title: ':bar_chart: Statistiques',
-                  description: stats.to_s
-                ))
-                nil
-              else
-                play.edit(
-                  ":arrow_forward: `#{hidden_word}`\nUtilisées : #{false_letters.join(', ').chomp(', ')}\n" +
-                  "Erreurs restantes : #{max_errors - false_letters.length}"
-                )
-                false
-              end
+            if false_letters.length >= max_errors
+              context.send("**:cry: C'est perdu ! Retentez votre chance !**\n\nLe mot était **#{word}** !")
+              context.send_embed('', BoiteABois::Utils::embed(
+                title: ':bar_chart: Statistiques',
+                description: stats.to_s
+              ))
+              break
+            else
+              play.edit(
+                ":arrow_forward: `#{hidden_word}`\nUtilisées : #{false_letters.join(', ').chomp(', ')}\n" +
+                "Erreurs restantes : #{max_errors - false_letters.length}"
+              )
             end
           end
         end
