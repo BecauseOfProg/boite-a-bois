@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://cdn.becauseofprog.fr/v2/projects/boite-a-bois.png" width="200" alt="logo">
+  <img src="https://cdn.discordapp.com/app-icons/549219394513797130/9369f9371e2cbb0f4d1116e195aa2baa.png?size=512" width="200" alt="logo">
   <h1>Boite à bois</h1>
   <h6><i>literally "box of wood"</i></h6>
   <h3>Discord bot to play games and do other stuff</h3>
@@ -98,8 +98,8 @@ The schemas are in the YML format. All is documented [on the mongocore gem page]
 
 - Library : [DiscordRB](https://github.com/meew0/discordrb)
 - Developers :
-  - [Whaxion](https://github.com/whaxion) : first base
-  - [Exybore](https://github.com/exybore) : maintainer, actual main developer
+  - [Nicolas Martinussen](https://github.com/whaxion) : first core
+  - [Théo Vidal](https://github.com/theovidal) : maintainer, actual main developer
 
 ## 🔐 License
 
