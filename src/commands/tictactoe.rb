@@ -52,16 +52,16 @@ module BoiteABois
         notice_message = nil
         loop do
           in_game = players[turn % 2]
-          notice_message = context.send("**:arrow_right: #{in_game[:user].mention}, à votre tour** (vous êtes #{PLAYS[in_game[:type]]})\n*Pour quitter la partie, envoyez `stop`.") if notice
+          notice_message = context.send("**:arrow_right: #{in_game[:user].mention}, à votre tour** (vous êtes #{PLAYS[in_game[:type]]})\n*Pour quitter la partie, envoyez `stop`.*") if notice
 
           answer = in_game[:user].await!({ in: context.channel.id, timeout: 120 })
 
           if answer.nil?
-            context.send(':clock_2: :x: Le temps pour jouer est écoulé, la partie est annulée.')
+            context.send('**:clock_2: :x: Le temps pour jouer est écoulé, la partie est annulée.**')
             break
           end
           if answer.content == 'stop'
-            context.send(":stop_sign: Arrêt de la partie prononcé par #{in_game[:user].mention}")
+            context.send("**:stop_sign: Arrêt de la partie prononcé par #{in_game[:user].mention}**")
             break
           end
 
@@ -85,12 +85,16 @@ module BoiteABois
                 k += 1 if grid[row][column] == in_game[:type]
               end
               if k == 3
-                context.send_message(":tada: #{in_game[:user].mention} a gagné la partie!")
+                context.send_message("**:tada: #{in_game[:user].mention} a gagné la partie!**")
                 return
               end
             end
 
             turn += 1
+            if turn > 8
+              context.send_message("**:shrug: La partie n'a pas de gagnant.**")
+              return
+            end
           else
             context.send_temporary_message("**:arrows_counterclockwise: Case déjà prise. Merci d'en choisir une autre.**", 3)
             notice = false
